@@ -1,7 +1,0 @@
-{
-  "name": "fit-check",
-  "version": "0.1.0",
-  "private": true,
-  "react": "^18.0.0",
-  "react-dom": "^18.0.0"
-}
