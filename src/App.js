@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import rekhaSharmaImg from './rekha_sharma.jpg';
 import { motion } from 'framer-motion';
 import MedicineSVG from './assets/undraw_medicine_hqqg.svg';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Pagination } from 'swiper/modules';
 
 function App() {
   return (
@@ -139,15 +143,69 @@ function App() {
 
       {/* Testimonial Section */}
       <motion.section
-        className="container mx-auto px-4 py-16" id="testimonials"
+        className="container mx-auto px-4 md:px-0 py-16"
+        id="testimonials"
         initial={{ y: -60, opacity: 0 }}
         whileInView={{ y: 0, opacity: 1 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.7, delay: 0.5 }}
       >
-        <div className="bg-white rounded-xl shadow-lg p-8 md:p-12 max-w-5xl mx-auto">
-          <h2 className="text-3xl font-bold mb-8 text-blue-700 text-center">What Our Clients Say</h2>
-          <TestimonialCarousel />
+        <div className="bg-gradient-to-br from-blue-50 to-white rounded-xl shadow-lg p-8 md:p-12 max-w-6xl mx-auto">
+          <h2 className="text-4xl font-bold mb-10 text-blue-700 text-center">What Our Clients Say</h2>
+          <Swiper
+            spaceBetween={32}
+            slidesPerView={1}
+            pagination={{ clickable: true }}
+            breakpoints={{
+              640: { slidesPerView: 1 },
+              768: { slidesPerView: 2 },
+              1024: { slidesPerView: 3 }
+            }}
+            modules={[Pagination]}
+            className="pb-8"
+          >
+            {[
+              {
+                name: "Priya S.",
+                role: "Entrepreneur",
+                image: "https://randomuser.me/api/portraits/women/44.jpg",
+                text: "Ms. Rekha's guidance helped me manage my diabetes and lose 10kg. Her plans are practical and easy to follow!"
+              },
+              {
+                name: "Rahul D.",
+                role: "Software Engineer",
+                image: "https://randomuser.me/api/portraits/men/32.jpg",
+                text: "Professional, caring, and effective. Highly recommend Ms. Rekha for anyone seeking real results!"
+              },
+              {
+                name: "Anjali M.",
+                role: "Student",
+                image: "https://randomuser.me/api/portraits/women/68.jpg",
+                text: "I struggled with PCOS for years. Thanks to Fit Check, my lifestyle has completely changed for the better."
+              },
+              {
+                name: "Suresh K.",
+                role: "Manager",
+                image: "https://randomuser.me/api/portraits/men/65.jpg",
+                text: "The personalized nutrition plan was a game changer for my family. Thank you!"
+              }
+            ].map((t, idx) => (
+              <SwiperSlide key={idx}>
+                <div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center h-full mx-2 border border-blue-100">
+                  <img
+                    src={t.image}
+                    alt={t.name}
+                    className="w-20 h-20 rounded-full object-cover border-4 border-blue-200 mb-4 shadow"
+                  />
+                  <p className="text-lg italic mb-4 text-gray-700">"{t.text}"</p>
+                  <div className="text-center">
+                    <span className="block font-semibold text-blue-700">{t.name}</span>
+                    <span className="block text-sm text-gray-500">{t.role}</span>
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
       </motion.section>
 
@@ -182,100 +240,31 @@ function App() {
   );
 }
 
-function TestimonialCarousel() {
-  const testimonials = [
-    {
-      text: "Ms. Rekha's guidance helped me manage my diabetes and lose 10kg. Her plans are practical and easy to follow!",
-      name: "Priya S.",
-    },
-    {
-      text: "I struggled with PCOS for years. Thanks to Fit Check, my lifestyle has completely changed for the better.",
-      name: "Anjali M.",
-    },
-    {
-      text: "Professional, caring, and effective. Highly recommend Ms. Rekha for anyone seeking real results!",
-      name: "Rahul D.",
-    },
-    {
-      text: "The personalized nutrition plan was a game changer for my family. Thank you!",
-      name: "Suresh K.",
-    },
-    {
-      text: "Lost 8kg in 3 months! Rekha ma'am's support is unmatched.",
-      name: "Meena T.",
-    },
-    {
-      text: "My BP is under control for the first time in years. Highly recommend!",
-      name: "Vikas P.",
-    },
-  ];
-  const itemsPerFrame = 2;
-  const totalFrames = Math.ceil(testimonials.length / itemsPerFrame);
-  const [frame, setFrame] = useState(0);
-  const [direction, setDirection] = useState(1); // 1 for forward, -1 for backward
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setFrame((prev) => {
-        if (prev === totalFrames - 1 && direction === 1) {
-          setDirection(-1);
-          return prev - 1;
-        } else if (prev === 0 && direction === -1) {
-          setDirection(1);
-          return prev + 1;
-        }
-        return prev + direction;
-      });
-    }, 3500);
-    return () => clearInterval(interval);
-  }, [direction, totalFrames]);
-
-  const handleDotClick = (idx) => {
-    setFrame(idx);
-    setDirection(idx > frame ? 1 : -1);
-  };
-
-  return (
-    <div className="relative w-full flex flex-col items-center justify-center min-h-[320px] overflow-hidden">
-      <div
-        className="flex transition-transform duration-700 ease-in-out max-w-5xl w-full mx-auto"
-        style={{
-          transform: `translateX(-${frame * 100}%)`,
-          width: `${totalFrames * 100}%`,
-        }}
-      >
-        {Array.from({ length: totalFrames }).map((_, i) => (
-          <div
-            key={i}
-            className="w-full flex-shrink-0 flex justify-center items-stretch gap-6 px-2"
-            style={{ minWidth: '100%' }}
-          >
-            {testimonials.slice(i * itemsPerFrame, i * itemsPerFrame + itemsPerFrame).map((t, j) => (
-              <div key={j} className="bg-blue-50 rounded-lg p-6 md:p-8 shadow text-center flex flex-col items-center justify-center min-h-[260px] w-1/2 max-w-[320px] mx-auto">
-                {/* Human/User SVG icon */}
-                <svg className="w-14 h-14 text-blue-400 mb-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <circle cx="12" cy="7" r="5" stroke="currentColor" strokeWidth="2" fill="#e0f2fe" />
-                  <path d="M2 21c0-4.418 4.03-8 9-8s9 3.582 9 8" stroke="currentColor" strokeWidth="2" fill="#e0f2fe" />
-                </svg>
-                <p className="text-lg md:text-xl italic mb-4">"{t.text}"</p>
-                <span className="font-semibold text-blue-700">- {t.name}</span>
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-      {/* Carousel Dots */}
-      <div className="flex justify-center mt-6 gap-2">
-        {Array.from({ length: totalFrames }).map((_, idx) => (
-          <button
-            key={idx}
-            onClick={() => handleDotClick(idx)}
-            className={`w-4 h-4 rounded-full border-2 border-blue-400 focus:outline-none transition-all duration-200 ${frame === idx ? 'bg-blue-400' : 'bg-white'}`}
-            aria-label={`Go to frame ${idx + 1}`}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
+const testimonials = [
+  {
+    text: "Ms. Rekha's guidance helped me manage my diabetes and lose 10kg. Her plans are practical and easy to follow!",
+    name: "Priya S.",
+  },
+  {
+    text: "I struggled with PCOS for years. Thanks to Fit Check, my lifestyle has completely changed for the better.",
+    name: "Anjali M.",
+  },
+  {
+    text: "Professional, caring, and effective. Highly recommend Ms. Rekha for anyone seeking real results!",
+    name: "Rahul D.",
+  },
+  {
+    text: "The personalized nutrition plan was a game changer for my family. Thank you!",
+    name: "Suresh K.",
+  },
+  {
+    text: "Lost 8kg in 3 months! Rekha ma'am's support is unmatched.",
+    name: "Meena T.",
+  },
+  {
+    text: "My BP is under control for the first time in years. Highly recommend!",
+    name: "Vikas P.",
+  },
+];
 
 export default App;
