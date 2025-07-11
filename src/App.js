@@ -1,13 +1,67 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import rekhaSharmaImg from './rekha_sharma.jpg';
 import { motion } from 'framer-motion';
 import MedicineSVG from './assets/undraw_medicine_hqqg.svg';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { Pagination } from 'swiper/modules';
+import { Autoplay, Pagination } from 'swiper/modules';
+import SwiperCore from 'swiper';
 
 function App() {
+  // All hooks and state must be inside the component
+  const testimonials = [
+    {
+      name: "Priya S.",
+      role: "Entrepreneur",
+      image: "https://randomuser.me/api/portraits/women/44.jpg",
+      text: "Ms. Rekha's guidance helped me manage my diabetes and lose 10kg. Her plans are practical and easy to follow!"
+    },
+    {
+      name: "Rahul D.",
+      role: "Software Engineer",
+      image: "https://randomuser.me/api/portraits/men/32.jpg",
+      text: "Professional, caring, and effective. Highly recommend Ms. Rekha for anyone seeking real results!"
+    },
+    {
+      name: "Anjali M.",
+      role: "Student",
+      image: "https://randomuser.me/api/portraits/women/68.jpg",
+      text: "I struggled with PCOS for years. Thanks to Fit Check, my lifestyle has completely changed for the better."
+    },
+    {
+      name: "Suresh K.",
+      role: "Manager",
+      image: "https://randomuser.me/api/portraits/men/65.jpg",
+      text: "The personalized nutrition plan was a game changer for my family. Thank you Fit Check and Ms. Rekha Sharma!"
+    }
+  ];
+  const swiperRef = useRef(null);
+  const [autoplayDirection, setAutoplayDirection] = useState(1);
+  useEffect(() => {
+    if (!swiperRef.current || typeof swiperRef.current.slideTo !== 'function') return;
+    let timeout;
+    function autoSlide() {
+      if (autoplayDirection === 1) {
+        if (swiperRef.current.isEnd) {
+          setAutoplayDirection(-1);
+          timeout = setTimeout(() => swiperRef.current.slideTo(swiperRef.current.activeIndex - 1), 3500);
+        } else {
+          timeout = setTimeout(() => swiperRef.current.slideTo(swiperRef.current.activeIndex + 1), 3500);
+        }
+      } else {
+        if (swiperRef.current.isBeginning) {
+          setAutoplayDirection(1);
+          timeout = setTimeout(() => swiperRef.current.slideTo(swiperRef.current.activeIndex + 1), 3500);
+        } else {
+          timeout = setTimeout(() => swiperRef.current.slideTo(swiperRef.current.activeIndex - 1), 3500);
+        }
+      }
+    }
+    autoSlide();
+    return () => clearTimeout(timeout);
+  }, [autoplayDirection]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white text-gray-800 font-sans">
       {/* Navbar */}
@@ -161,35 +215,18 @@ function App() {
               768: { slidesPerView: 2 },
               1024: { slidesPerView: 3 }
             }}
-            modules={[Pagination]}
+            modules={[Autoplay, Pagination]}
+            autoplay={{
+              delay: 3500,
+              reverseDirection: autoplayDirection === -1,
+              disableOnInteraction: false,
+            }}
+            onSwiper={swiper => { swiperRef.current = swiper; }}
+            onReachEnd={() => setAutoplayDirection(-1)}
+            onReachBeginning={() => setAutoplayDirection(1)}
             className="pb-8"
           >
-            {[
-              {
-                name: "Priya S.",
-                role: "Entrepreneur",
-                image: "https://randomuser.me/api/portraits/women/44.jpg",
-                text: "Ms. Rekha's guidance helped me manage my diabetes and lose 10kg. Her plans are practical and easy to follow!"
-              },
-              {
-                name: "Rahul D.",
-                role: "Software Engineer",
-                image: "https://randomuser.me/api/portraits/men/32.jpg",
-                text: "Professional, caring, and effective. Highly recommend Ms. Rekha for anyone seeking real results!"
-              },
-              {
-                name: "Anjali M.",
-                role: "Student",
-                image: "https://randomuser.me/api/portraits/women/68.jpg",
-                text: "I struggled with PCOS for years. Thanks to Fit Check, my lifestyle has completely changed for the better."
-              },
-              {
-                name: "Suresh K.",
-                role: "Manager",
-                image: "https://randomuser.me/api/portraits/men/65.jpg",
-                text: "The personalized nutrition plan was a game changer for my family. Thank you!"
-              }
-            ].map((t, idx) => (
+            {testimonials.map((t, idx) => (
               <SwiperSlide key={idx}>
                 <div className="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center h-full mx-2 border border-blue-100">
                   <img
@@ -239,32 +276,5 @@ function App() {
     </div>
   );
 }
-
-const testimonials = [
-  {
-    text: "Ms. Rekha's guidance helped me manage my diabetes and lose 10kg. Her plans are practical and easy to follow!",
-    name: "Priya S.",
-  },
-  {
-    text: "I struggled with PCOS for years. Thanks to Fit Check, my lifestyle has completely changed for the better.",
-    name: "Anjali M.",
-  },
-  {
-    text: "Professional, caring, and effective. Highly recommend Ms. Rekha for anyone seeking real results!",
-    name: "Rahul D.",
-  },
-  {
-    text: "The personalized nutrition plan was a game changer for my family. Thank you!",
-    name: "Suresh K.",
-  },
-  {
-    text: "Lost 8kg in 3 months! Rekha ma'am's support is unmatched.",
-    name: "Meena T.",
-  },
-  {
-    text: "My BP is under control for the first time in years. Highly recommend!",
-    name: "Vikas P.",
-  },
-];
 
 export default App;
