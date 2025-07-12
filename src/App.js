@@ -12,28 +12,34 @@ function App() {
   // All hooks and state must be inside the component
   const testimonials = [
     {
-      name: "Priya S.",
+      name: "Priya Sharma",
       role: "Entrepreneur",
-      image: "https://randomuser.me/api/portraits/women/44.jpg",
+      image: "https://randomuser.me/api/portraits/women/15.jpg",
       text: "Ms. Rekha's guidance helped me manage my diabetes and lose 10kg. Her plans are practical and easy to follow!"
     },
     {
-      name: "Rahul D.",
-      role: "Software Engineer",
-      image: "https://randomuser.me/api/portraits/men/32.jpg",
-      text: "Professional, caring, and effective. Highly recommend Ms. Rekha for anyone seeking real results!"
-    },
-    {
-      name: "Anjali M.",
+      name: "Anjali Mehta",
       role: "Student",
-      image: "https://randomuser.me/api/portraits/women/68.jpg",
+      image: require("./assets/student.jpg"),
       text: "I struggled with PCOS for years. Thanks to Fit Check, my lifestyle has completely changed for the better."
     },
     {
-      name: "Suresh K.",
+      name: "Suresh Kumar",
       role: "Manager",
-      image: "https://randomuser.me/api/portraits/men/65.jpg",
+      image: require("./assets/managerr.jpg"),
       text: "The personalized nutrition plan was a game changer for my family. Thank you Fit Check and Ms. Rekha Sharma!"
+    },
+    {
+      name: "Kavita Patel",
+      role: "Teacher",
+      image: "https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?w=150&h=150&fit=crop&crop=face",
+      text: "Fit Check helped me overcome my weight issues. Ms. Rekha's approach is both professional and caring."
+    },
+    {
+      name: "Amit Singh",
+      role: "Business Owner",
+      image: "https://randomuser.me/api/portraits/men/66.jpg",
+      text: "Excellent service! The nutrition plans are tailored perfectly to Indian lifestyle and food habits."
     }
   ];
   const swiperRef = useRef(null);
