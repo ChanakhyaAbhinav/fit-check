@@ -115,7 +115,7 @@ function App() {
             <h3 className="text-xl font-semibold text-blue-700 mb-4">About the Company/Nutritionist</h3>
             <ul className="list-disc pl-6 space-y-2 text-lg">
               <li><b>Company Name:</b> Fit Check</li>
-              <li><b>Visiting at:</b> Kokilaben Hospital, Apollo Hospital, Copper Hospital</li>
+              <li><b>Visiting at:</b> Kokilaben Hospital, Apollo Hospital, Coopper Hospital</li>
               <li><b>President:</b> NIN</li>
               <li>Offers service for weight management and lifestyle modification to her clients</li>
               <li>Expertise in Nutrition for BP, PCOS, Diabetes and Obesity</li>
