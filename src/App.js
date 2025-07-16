@@ -108,6 +108,12 @@ function App() {
             <div className="text-center">
               <h2 className="text-2xl font-bold text-blue-700 mb-1">Ms. Rekha Sharma</h2>
               <p className="text-lg text-gray-600">MSC in Nutrition</p>
+              <div className="mt-3">
+                <p className="text-base text-gray-700 font-medium">
+                  <span className="block"><b>Email:</b> <a href="mailto:Rekha@fitcheck.com" className="text-blue-600 hover:underline">Rekha@fitcheck.com</a></span>
+                  <span className="block mt-1"><b>Phone:</b> <a href="tel:9967875582" className="text-blue-600 hover:underline">9967875582</a></span>
+                </p>
+              </div>
             </div>
           </div>
           {/* Details */}
